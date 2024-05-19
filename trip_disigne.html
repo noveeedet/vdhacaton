@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Форма командировки</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            --bg-color: var(--tg-theme-bg-color, #fff);
+            background-color: var(--bg-color);
+            color: var(--tg-theme-text-color, #222);
+            font-size: 14px;
+            margin: 0;
+            padding: 0;
+            color-scheme: var(--tg-color-scheme);
+        }
+
+        body.gray {
+            background-color: var(--tg-theme-secondary-bg-color, #efefef);
+        }
+        input, button {
+            margin: 10px 0;
+            padding: 10px;
+            width: 80%;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <h2>Введите информацию о командировке</h2>
+    <input type="text" id="surname" placeholder="Фамилия (Латиницей)">
+    <input type="text" id="name" placeholder="Имя (Латиницей)">
+    <input type="text" id="lastname" placeholder="Отчество (Латиницей)">
+    <input type="text" id="citizenship" placeholder="Гражданство (заполняется при подаче первой заявки и при изменении данных)">
+    <input type="date" id="dateOfBirth" placeholder="Дата рождения">
+    <input type="text" id="numberAndSeries" placeholder="№ и серия паспорта (заполняется при подаче первой заявки и при изменении данных)">
+    <input type="tel" id="contactPhoneNumber" placeholder="Телефон для связи (заполняется при подаче первой заявки и при изменении данных)">
+    <input type="email" id="contactEmail" placeholder="Email (заполняется при подаче первой заявки и при изменении данных)">
+    <input type="text" id="fio" placeholder="ФИО (по русски)">
+    <input type="tel" id="telephoneUseInBusinessTrip" placeholder="Телефон для связи, действующий на момент отъезда/прилета (чтобы водитель такси мог с вами связаться)">
+    <input type="date" id="departureDate" placeholder="Дата отъезда (если есть ограничения)">
+    <input type="time" id="desiredDepartureTime" placeholder="Желаемое время отъезда (если есть ограничения)">
+    <input type="text" id="carDeliveryAddress" placeholder="Адрес подачи авто при отлете/пункт назначения при прилете">
+    <input type="time" id="carDeliveryTime" placeholder="Время подачи авто при отлете/время прибытия рейса по расписанию при прилете">
+    <input type="text" id="baggage" placeholder="Багаж">
+    <input type="text" id="commentsOnTravel" placeholder="Комментарии по проезду">
+    <select id="transfer">
+        <option value="">Трансфер в/из аэропорта, ж/д вокзала в Самаре</option>
+        <option value="yes">ДА - нужен</option>
+        <option value="no">НЕТ - не нужен</option>
+    </select>
+    
+    <button onclick="sendData()">Сохранить</button>
+
+    <script>
+        Telegram.WebApp.ready();
+
+        function sendData() {
+            var surname =  document.getElementById('surname').value;
+            var name =  document.getElementById('name').value;
+            var lastname = document.getElementById('lastname').value;
+            var citizenship =  document.getElementById('citizenship').value;
+            var dateOfBirth = document.getElementById('dateOfBirth').value;
+            var numberAndSeries = document.getElementById('numberAndSeries').value;
+            var contactPhoneNumber = document.getElementById('contactPhoneNumber').value;
+            var contactEmail= document.getElementById('contactEmail').value;
+            var fio = document.getElementById('fio').value;
+            var telephoneUseInBusinessTrip = document.getElementById('telephoneUseInBusinessTrip').value;
+            var departureDate = document.getElementById('departureDate').value;
+            var desiredDepartureTime = document.getElementById('desiredDepartureTime').value;
+            var carDeliveryAddress = document.getElementById('carDeliveryAddress').value;
+            var carDeliveryTime = document.getElementById('carDeliveryTime').value;
+            var baggage = document.getElementById('baggage').value;
+            var commentsOnTravel = document.getElementById('commentsOnTravel').value;
+            var transfer = document.getElementById('transfer').value;
+            var data = {
+                surname: surname,
+                name: name,
+                lastname: lastname,
+                citizenship: citizenship,
+                dateOfBirth: dateOfBirth,
+                numberAndSeries: numberAndSeries,
+                contactPhoneNumber: contactPhoneNumber,
+                contactEmail: contactEmail,
+                fio: fio,
+                telephoneUseInBusinessTrip: telephoneUseInBusinessTrip,
+                departureDate: departureDate,
+                desiredDepartureTime: desiredDepartureTime,
+                carDeliveryAddress: carDeliveryAddress,
+                carDeliveryTime: carDeliveryTime,
+                baggage: baggage,
+                commentsOnTravel: commentsOnTravel,
+                transfer: transfer
+            };
+
+            console.log("Preparing to send data:", JSON.stringify(data)); // Вывод данных перед отправкой
+
+            var newDiv = document.createElement("div");
+
+
+            try {
+                Telegram.WebApp.sendData(JSON.stringify(data));
+                console.log("Data sent successfully"); // Успешная отправка данных
+
+                newDiv.textContent = "Сработало" + data.city + " " + data.description;
+                document.body.appendChild(newDiv);
+            } catch (error) {
+                console.error("Error sending data:", error); // Логирование ошибки при отправке данных
+                
+                newDiv.textContent = "Не сработало" + data.city + " " + data.description + error;
+                document.body.appendChild(newDiv);
+            }
+        }
+    </script>
+</body>
+</html>
