@@ -26,7 +26,7 @@
         body.gray {
             background-color: var(--tg-theme-secondary-bg-color, #efefef);
         }
-        input, button {
+       input, button, select {
             margin: 10px 0;
             padding: 10px;
             width: 80%;
@@ -38,6 +38,20 @@
             color: white;
             border: none;
         }
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            width: 80%;
+            margin:  0;
+        }
+
+        .checkbox-container input[type="checkbox"] {
+            width: auto;
+            margin-left: 5px;
+        }
+        input[type="checkbox"]{
+            transform: scale(1.1);
+        }
     </style>
 </head>
 <body>
@@ -46,27 +60,32 @@
     <input type="text" id="name" placeholder="Имя (Латиницей)">
     <input type="text" id="lastname" placeholder="Отчество (Латиницей)">
     <input type="text" id="citizenship" placeholder="Гражданство (заполняется при подаче первой заявки и при изменении данных)">
-    <input type="date" id="dateOfBirth" placeholder="Дата рождения">
+    <input type="text" id="dateOfBirth" placeholder="Дата рождения" onfocus="(this.type='date')" onblur="if(this.value===''){this.type='text'}">
     <input type="text" id="numberAndSeries" placeholder="№ и серия паспорта (заполняется при подаче первой заявки и при изменении данных)">
     <input type="tel" id="contactPhoneNumber" placeholder="Телефон для связи (заполняется при подаче первой заявки и при изменении данных)">
     <input type="email" id="contactEmail" placeholder="Email (заполняется при подаче первой заявки и при изменении данных)">
     <input type="text" id="fio" placeholder="ФИО (по русски)">
     <input type="tel" id="telephoneUseInBusinessTrip" placeholder="Телефон для связи, действующий на момент отъезда/прилета (чтобы водитель такси мог с вами связаться)">
-    <input type="date" id="departureDate" placeholder="Дата отъезда (если есть ограничения)">
-    <input type="time" id="desiredDepartureTime" placeholder="Желаемое время отъезда (если есть ограничения)">
+    <input type="text" id="departureDate" placeholder="Дата отъезда (если есть ограничения)" onfocus="(this.type='date')" onblur="if(this.value===''){this.type='text'}">
+    <input type="text" id="desiredDepartureTime" placeholder="Желаемое время отъезда (если есть ограничения)" onfocus="(this.type='time')" onblur="if(this.value===''){this.type='text'}" >
     <input type="text" id="carDeliveryAddress" placeholder="Адрес подачи авто при отлете/пункт назначения при прилете">
-    <input type="time" id="carDeliveryTime" placeholder="Время подачи авто при отлете/время прибытия рейса по расписанию при прилете">
-    <input type="text" id="baggage" placeholder="Багаж">
+    <input type="text" id="carDeliveryTime" placeholder="Время подачи авто при отлете/время прибытия рейса по расписанию при прилете"  onfocus="(this.type='time')" onblur="if(this.value===''){this.type='text'}">
+    <div class="checkbox-container">
+        <label for="baggage">Берете багаж с собой? </label>
+        <input type="checkbox" id="baggage" name="baggage">
+    </div>
     <input type="text" id="commentsOnTravel" placeholder="Комментарии по проезду">
-    <select id="transfer">
-        <option value="">Трансфер в/из аэропорта, ж/д вокзала в Самаре</option>
-        <option value="yes">ДА - нужен</option>
-        <option value="no">НЕТ - не нужен</option>
-    </select>
+   
+    
+    <div class="checkbox-container">
+        <label for="transfer">Нужен трансфер в/из аэропорта, ж/д вокзала в Самаре? </label>
+        <input type="checkbox" id="transfer" name="transfer">
+    </div>
     
     <button onclick="sendData()">Сохранить</button>
 
     <script>
+        
         Telegram.WebApp.ready();
 
         function sendData() {
