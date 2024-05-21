@@ -103,9 +103,20 @@
             var desiredDepartureTime = document.getElementById('desiredDepartureTime').value;
             var carDeliveryAddress = document.getElementById('carDeliveryAddress').value;
             var carDeliveryTime = document.getElementById('carDeliveryTime').value;
-            var baggage = document.getElementById('baggage').value;
+            if(document.getElementById('baggage').value == 'on'){
+                var baggage = 1;
+            }
+            else{
+                var baggage = 0
+            }
             var commentsOnTravel = document.getElementById('commentsOnTravel').value;
-            var transfer = document.getElementById('transfer').value;
+            if(document.getElementById('transfer').value == 'on'){
+                var transfer = 1;
+            }
+            else{
+                var transfer = 0
+            }
+           
             var data = {
                 surname: surname,
                 name: name,
